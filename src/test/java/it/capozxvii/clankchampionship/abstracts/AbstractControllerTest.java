@@ -2,10 +2,11 @@ package it.capozxvii.clankchampionship.abstracts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import it.capozxvii.clankchampionship.service.impl.ChampionshipService;
-import it.capozxvii.clankchampionship.service.impl.PlayerService;
-import it.capozxvii.clankchampionship.service.impl.PointsService;
-import it.capozxvii.clankchampionship.service.impl.PrevisionService;
+import it.capozxvii.clankchampionship.service.IChampionshipService;
+import it.capozxvii.clankchampionship.service.IGameService;
+import it.capozxvii.clankchampionship.service.IPlayerService;
+import it.capozxvii.clankchampionship.service.IPointsService;
+import it.capozxvii.clankchampionship.service.IPrevisionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,19 @@ public class AbstractControllerTest extends AbstractTest {
     protected MockMvc mvc;
 
     @MockBean
-    protected ChampionshipService championshipService;
+    protected IChampionshipService championshipService;
 
     @MockBean
-    protected PlayerService playerService;
+    protected IGameService gameService;
 
     @MockBean
-    protected PointsService pointsService;
+    protected IPlayerService playerService;
 
     @MockBean
-    protected PrevisionService previsionService;
+    protected IPointsService pointsService;
+
+    @MockBean
+    protected IPrevisionService previsionService;
 
     @BeforeAll
     public static void setup() throws Exception {
