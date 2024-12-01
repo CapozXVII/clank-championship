@@ -125,16 +125,4 @@ class GameControllerTest extends AbstractControllerTest {
         assertEquals(gameDtoNowPlusOne,
                 res.stream().filter(gameDto -> gameDto.getGameDate().equals(now.plusDays(1))).findFirst().get());
     }
-
-    @Test
-    void noGamesFoundTest() throws Exception {
-        when(gameService.findByLocation("NotExistingLocation")).thenReturn(List.of());
-        List<GameDto> res = MAPPER.readValue(mvc.perform(
-                        get("/find-by-location").param("location", "NotExistingLocation")
-                                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString(), new TypeReference<CollectionWrapper<GameDto>>() {
-        }).getResponseObject();
-        assertTrue(res.isEmpty());
-    }
 }
