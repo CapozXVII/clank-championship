@@ -28,7 +28,7 @@ public class OtherCategoriesConverter implements AttributeConverter<Map<String, 
             categories = MAPPER.writeValueAsString(otherCategories);
         } catch (final JsonProcessingException e) {
             LOG.error("JSON writing error", e);
-            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_JSON);
+            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_JSON, otherCategories);
         }
         return categories;
     }
@@ -42,7 +42,7 @@ public class OtherCategoriesConverter implements AttributeConverter<Map<String, 
             });
         } catch (final IOException e) {
             LOG.error("JSON reading error", e);
-            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_OBJECT);
+            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_OBJECT, otherCategoriesJson);
         }
         return otherCategories;
     }
