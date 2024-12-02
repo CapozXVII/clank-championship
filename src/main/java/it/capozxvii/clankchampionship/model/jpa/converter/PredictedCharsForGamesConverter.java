@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 @Converter
 public class PredictedCharsForGamesConverter implements AttributeConverter<Map<Integer, CharacterEnum>, String> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OtherCategoriesConverter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PredictedCharsForGamesConverter.class);
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -29,7 +29,7 @@ public class PredictedCharsForGamesConverter implements AttributeConverter<Map<I
             categories = MAPPER.writeValueAsString(otherCategories);
         } catch (final JsonProcessingException e) {
             LOG.error("JSON writing error", e);
-            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_JSON);
+            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_JSON, otherCategories);
         }
         return categories;
     }
@@ -44,7 +44,7 @@ public class PredictedCharsForGamesConverter implements AttributeConverter<Map<I
                     });
         } catch (final IOException e) {
             LOG.error("JSON reading error", e);
-            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_OBJECT);
+            throw new ClankChampionshipException(Message.ERROR_WHILE_CONVERTING_TO_OBJECT, otherCategoriesJson);
         }
         return otherCategories;
     }

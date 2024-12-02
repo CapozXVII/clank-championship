@@ -12,8 +12,8 @@ public final class Message {
 
     public static final String POINTS_SUCCESSFULLY_SAVED = "Points have been saved";
 
-    public static final String ERROR_WHILE_CONVERTING_TO_JSON = "Error while converting to JSON";
-    public static final String ERROR_WHILE_CONVERTING_TO_OBJECT = "Error while converting to Object";
+    public static final String ERROR_WHILE_CONVERTING_TO_JSON = "Error while converting [{}] to JSON";
+    public static final String ERROR_WHILE_CONVERTING_TO_OBJECT = "Error while converting [{}] to Object";
 
     private Message() {
     }
