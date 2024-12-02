@@ -1,15 +1,15 @@
 package it.capozxvii.clankchampionship.model.jpa.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+
 import it.capozxvii.clankchampionship.model.enums.CharacterEnum;
 import it.capozxvii.clankchampionship.util.exception.ClankChampionshipException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 
 class PredictedCharsFormGamesConverterTest {
 
