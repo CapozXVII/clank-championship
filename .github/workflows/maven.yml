@@ -11,6 +11,8 @@ name: Java CI with Maven
 on:
   pull_request:
     branches: [ "develop" ]
+  push:
+    branches: ["develop", "main"]
 
 jobs:
   build:
@@ -32,7 +34,8 @@ jobs:
       uses: madrapps/jacoco-report@v1.7.1
       with:
           paths: |
-            ${{ github.workspace }}/**/target/site/jacoco/jacoco.xml
+            ${{ github.workspace }}/**/target/site/jacoco/jacoco.xml,
+            ${{ github.workspace }}/**/target/pit-reports/mutations.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
