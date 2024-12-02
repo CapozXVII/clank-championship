@@ -2,10 +2,9 @@ package it.capozxvii.clankchampionship.model.jpa.converter;
 
 import it.capozxvii.clankchampionship.model.enums.CharacterEnum;
 import it.capozxvii.clankchampionship.util.exception.ClankChampionshipException;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
