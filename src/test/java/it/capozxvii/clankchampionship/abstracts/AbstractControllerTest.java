@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-public class AbstractControllerTest extends AbstractTest {
+public abstract class AbstractControllerTest extends AbstractTest {
 
     protected static final ObjectMapper MAPPER = new ObjectMapper();
 

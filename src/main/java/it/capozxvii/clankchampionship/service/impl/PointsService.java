@@ -17,6 +17,7 @@ import it.capozxvii.clankchampionship.util.Utils;
 import it.capozxvii.clankchampionship.util.exception.ClankChampionshipException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,8 @@ public class PointsService implements IPointsService {
 
 
     public PointsService(final PlayerRepository playerRepository, final GameRepository gameRepository,
-                         final PointsRepository pointsRepository, final ChampionshipRepository championshipRepository,
-                         final Utils utils, final PointsMapper pointsMapper) {
+            final PointsRepository pointsRepository, final ChampionshipRepository championshipRepository,
+            final Utils utils, final PointsMapper pointsMapper) {
         this.playerRepository = playerRepository;
         this.gameRepository = gameRepository;
         this.pointsRepository = pointsRepository;
@@ -61,8 +62,8 @@ public class PointsService implements IPointsService {
         pointsDtoList.forEach(pointsDto -> {
             PlayerDto playerDto = pointsDto.getPlayer();
             Player player = utils.checkAndGetPlayer(playerRepository,
-                    PlayerID.builder().id(playerDto.getId())
-                            .nickname(playerDto.getNickname()).build());
+                                                    PlayerID.builder().id(playerDto.getId())
+                                                            .nickname(playerDto.getNickname()).build());
             Points points = pointsMapper.toEntity(pointsDto);
             points.setGame(game);
             points.setPlayer(player);
@@ -76,9 +77,15 @@ public class PointsService implements IPointsService {
         Points toUpdate = pointsMapper.toEntity(pointsDto);
         toUpdate.setId(pointsDto.getId());
         Player player = utils.checkAndGetPlayer(playerRepository,
-                PlayerID.builder().id(pointsDto.getPlayer().getId())
-                        .nickname(pointsDto.getPlayer().getNickname()).build());
+                                                PlayerID.builder().id(pointsDto.getPlayer().getId())
+                                                        .nickname(pointsDto.getPlayer().getNickname()).build());
         toUpdate.setPlayer(player);
         return pointsMapper.toDto(pointsRepository.save(toUpdate));
+    }
+
+    @Override
+    public List<PointsDto> getPointsOfAGame(final Long gameId) {
+        return pointsRepository.findByGame(utils.checkAndGetEntity(gameRepository, Game.class, gameId)).stream()
+                .map(pointsMapper::toDto).collect(Collectors.toList());
     }
 }

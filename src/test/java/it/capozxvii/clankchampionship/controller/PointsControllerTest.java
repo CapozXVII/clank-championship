@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,6 +16,7 @@ import it.capozxvii.clankchampionship.abstracts.AbstractControllerTest;
 import it.capozxvii.clankchampionship.model.dto.PointsDto;
 import it.capozxvii.clankchampionship.model.enums.CharacterEnum;
 import it.capozxvii.clankchampionship.util.exception.ClankChampionshipException;
+import it.capozxvii.clankchampionship.util.wrapper.CollectionWrapper;
 import it.capozxvii.clankchampionship.util.wrapper.SimpleWrapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,4 +118,49 @@ class PointsControllerTest extends AbstractControllerTest {
 
         assertEquals(updating, res);
     }
+
+    @Test
+    void getPointsOfAGameTest() throws Exception {
+        List<PointsDto> pointsDtoList = new ArrayList<>();
+        pointsDtoList.add(createPointsDto(17, 6, 8, 0, 5, 42, 10, 3, 19, 0, 18, 9, 12, 20, null, CharacterEnum.BLUE,
+                                          createPlayerDto("Capoz", "Cri Cap", 17L)));
+        pointsDtoList.add(createPointsDto(27, 0, 0, 0, 5, 14, 4, 0, 21, 0, 16, 10, 12, 20, null, CharacterEnum.GREY,
+                                          createPlayerDto("Ludovick", "Lud", null)));
+        pointsDtoList.add(createPointsDto(5, 0, 0, 0, 0, 14, 8, 0, 19, 0, 44, 0, 0, 20, null, CharacterEnum.YELLOW,
+                                          createPlayerDto("Ganj", "Ivan", null)));
+
+        Long gameId = 1L;
+
+        when(pointsService.getPointsOfAGame(gameId)).thenReturn(pointsDtoList);
+
+        List<PointsDto> res =
+                MAPPER.readValue(mvc.perform(get("/points-of-game").contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                     .param("gameId", gameId.toString()))
+                                         .andExpect(status().isOk()).andReturn()
+                                         .getResponse().getContentAsString(),
+                                 new TypeReference<CollectionWrapper<PointsDto>>() {
+                                 }).getResponseObject();
+
+        assertEquals(pointsDtoList, res);
+    }
+
+    @Test
+    void getPointsOfAGameExceptionTest() throws Exception {
+        Long gameId = -1L;
+
+        doThrow(new ClankChampionshipException("Game with id [-1] not found")).when(
+                pointsService).getPointsOfAGame(gameId);
+
+
+        String res =
+                MAPPER.readValue(mvc.perform(get("/points-of-game").contentType(MediaType.APPLICATION_JSON_VALUE)
+                                                     .param("gameId", gameId.toString()))
+                                         .andExpect(status().isInternalServerError()).andReturn()
+                                         .getResponse().getContentAsString(),
+                                 new TypeReference<CollectionWrapper<PointsDto>>() {
+                                 }).getMessage();
+
+        assertEquals("Game with id [-1] not found", res);
+    }
+
 }

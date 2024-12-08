@@ -104,8 +104,8 @@ public class Points extends AbstractEntity {
     public int getTotalPoints() {
         return
                 artifacts + eggs + monkeys + chalices + maps + tomes + prisoners + gems + undefinedCards + money
-                        + crowns + market + mastery + trophies + (otherCategories != null
-                        ? otherCategories.values().stream().mapToInt(Integer::valueOf)
-                        .sum() : 0);
+                + crowns + market + mastery + trophies + (otherCategories != null
+                                                          ? otherCategories.values().stream().mapToInt(Integer::valueOf)
+                                                                  .sum() : 0);
     }
 }

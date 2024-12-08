@@ -4,9 +4,11 @@ import it.capozxvii.clankchampionship.model.dto.PointsDto;
 import it.capozxvii.clankchampionship.service.IPointsService;
 import it.capozxvii.clankchampionship.util.Message;
 import it.capozxvii.clankchampionship.util.exception.ClankChampionshipException;
+import it.capozxvii.clankchampionship.util.wrapper.CollectionWrapper;
 import it.capozxvii.clankchampionship.util.wrapper.SimpleWrapper;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +26,8 @@ public class PointsController {
 
     @PostMapping(value = "/insert-points")
     public ResponseEntity<String> insertPoints(@RequestBody final List<PointsDto> pointsDtos,
-                                               @RequestParam final Long gameId,
-                                               @RequestParam final Long championshipId) {
+            @RequestParam final Long gameId,
+            @RequestParam final Long championshipId) {
         try {
             pointsService.insertPoints(pointsDtos, gameId, championshipId);
         } catch (ClankChampionshipException clankChampionshipException) {
@@ -40,9 +42,21 @@ public class PointsController {
 
             return ResponseEntity.ok()
                     .body(SimpleWrapper.<PointsDto>builder().responseObject(pointsService.updatePoints(pointsDto))
-                            .build());
+                                  .build());
         } catch (ClankChampionshipException clankChampionshipException) {
             return ResponseEntity.internalServerError().body(SimpleWrapper.<PointsDto>builder().message(
+                    clankChampionshipException.getMessage()).build());
+        }
+    }
+
+    @GetMapping(value = "/points-of-game")
+    public ResponseEntity<CollectionWrapper<PointsDto>> getPointsOfGame(@RequestParam final Long gameId) {
+        try {
+            return ResponseEntity.ok(
+                    CollectionWrapper.<PointsDto>builder().responseObject(pointsService.getPointsOfAGame(gameId))
+                            .build());
+        } catch (ClankChampionshipException clankChampionshipException) {
+            return ResponseEntity.internalServerError().body(CollectionWrapper.<PointsDto>builder().message(
                     clankChampionshipException.getMessage()).build());
         }
     }

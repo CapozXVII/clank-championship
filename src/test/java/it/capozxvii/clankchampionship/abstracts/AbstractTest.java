@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public class AbstractTest {
+public abstract class AbstractTest {
     protected static void filterAndCheckGameDtos(final List<GameDto> gameDtos, final Game game) {
         Optional<GameDto> gameDtoOptional =
                 gameDtos.stream().filter(gameDto -> Objects.equals(gameDto.getId(), game.getId())).findFirst();
@@ -45,22 +45,22 @@ public class AbstractTest {
     }
 
     protected Points createPoints(final int artifacts,
-                                  final int eggs,
-                                  final int monkeys,
-                                  final int chalices,
-                                  final int maps,
-                                  final int tomes,
-                                  final int prisoners,
-                                  final int gems,
-                                  final int undefinedCards,
-                                  final int trophies,
-                                  final int money,
-                                  final int crowns,
-                                  final int market,
-                                  final int mastery,
-                                  final Map<String, Integer> otherCategories,
-                                  final CharacterEnum characterEnum,
-                                  final Player player) {
+            final int eggs,
+            final int monkeys,
+            final int chalices,
+            final int maps,
+            final int tomes,
+            final int prisoners,
+            final int gems,
+            final int undefinedCards,
+            final int trophies,
+            final int money,
+            final int crowns,
+            final int market,
+            final int mastery,
+            final Map<String, Integer> otherCategories,
+            final CharacterEnum characterEnum,
+            final Player player) {
         return Points.builder().artifacts(artifacts).eggs(eggs).monkeys(monkeys).chalices(chalices).maps(maps)
                 .tomes(tomes).prisoners(prisoners).gems(gems).undefinedCards(undefinedCards).money(money)
                 .crowns(crowns).market(market).mastery(mastery).trophies(trophies).otherCategories(otherCategories)
@@ -77,22 +77,22 @@ public class AbstractTest {
     }
 
     protected PointsDto createPointsDto(final int artifacts,
-                                        final int eggs,
-                                        final int monkeys,
-                                        final int chalices,
-                                        final int maps,
-                                        final int tomes,
-                                        final int prisoners,
-                                        final int gems,
-                                        final int undefinedCards,
-                                        final int trophies,
-                                        final int money,
-                                        final int crowns,
-                                        final int market,
-                                        final int mastery,
-                                        final Map<String, Integer> otherCategories,
-                                        final CharacterEnum characterEnum,
-                                        final PlayerDto playerDto) {
+            final int eggs,
+            final int monkeys,
+            final int chalices,
+            final int maps,
+            final int tomes,
+            final int prisoners,
+            final int gems,
+            final int undefinedCards,
+            final int trophies,
+            final int money,
+            final int crowns,
+            final int market,
+            final int mastery,
+            final Map<String, Integer> otherCategories,
+            final CharacterEnum characterEnum,
+            final PlayerDto playerDto) {
         return PointsDto.builder().artifacts(artifacts).eggs(eggs).monkeys(monkeys).chalices(chalices).maps(maps)
                 .tomes(tomes).prisoners(prisoners).gems(gems).undefinedCards(undefinedCards).money(money)
                 .crowns(crowns).market(market).mastery(mastery).trophies(trophies).otherCategories(otherCategories)
@@ -100,30 +100,30 @@ public class AbstractTest {
     }
 
     protected PrevisionDto createPrevisionDto(final Long championshipId,
-                                              final PlayerID playerID,
-                                              final Map<Integer, CharacterEnum> chosenCharacters) {
+            final PlayerID playerID,
+            final Map<Integer, CharacterEnum> chosenCharacters) {
         return PrevisionDto.builder().championshipId(championshipId).predictions(chosenCharacters)
                 .playerID(playerID).build();
     }
 
     protected void filterAndCheckPoints(final Set<Points> points,
-                                        final CharacterEnum characterEnum,
-                                        final int artifacts,
-                                        final int eggs,
-                                        final int monkeys,
-                                        final int chalices,
-                                        final int maps,
-                                        final int tomes,
-                                        final int prisoners,
-                                        final int gems,
-                                        final int undefinedCards,
-                                        final int trophies,
-                                        final int money,
-                                        final int crowns,
-                                        final int market,
-                                        final int mastery,
-                                        final Map<String, Integer> otherCategories,
-                                        final Long playerId) {
+            final CharacterEnum characterEnum,
+            final int artifacts,
+            final int eggs,
+            final int monkeys,
+            final int chalices,
+            final int maps,
+            final int tomes,
+            final int prisoners,
+            final int gems,
+            final int undefinedCards,
+            final int trophies,
+            final int money,
+            final int crowns,
+            final int market,
+            final int mastery,
+            final Map<String, Integer> otherCategories,
+            final Long playerId) {
 
         Optional<Points> pointsOpt = points.stream().filter(point -> point.getCharacterEnum().equals(characterEnum))
                 .findFirst();
@@ -146,9 +146,53 @@ public class AbstractTest {
         assertEquals(trophies, point.getTrophies());
         assertEquals(otherCategories, point.getOtherCategories());
         assertEquals(artifacts + eggs + monkeys + chalices + maps + tomes + prisoners + gems + undefinedCards + money
-                + crowns + market + mastery + trophies + (otherCategories != null
-                ? otherCategories.values().stream().mapToInt(Integer::valueOf)
-                .sum() : 0), point.getTotalPoints());
+                     + crowns + market + mastery + trophies + (otherCategories != null
+                                                               ? otherCategories.values().stream()
+                                                                       .mapToInt(Integer::valueOf)
+                                                                       .sum() : 0), point.getTotalPoints());
+    }
+
+    protected void checkPointsDto(
+            final CharacterEnum character,
+            final int artifacts,
+            final int eggs,
+            final int monkeys,
+            final int chalices,
+            final int maps,
+            final int tomes,
+            final int prisoners,
+            final int gems,
+            final int undefinedCards,
+            final int trophies,
+            final int money,
+            final int crowns,
+            final int market,
+            final int mastery,
+            final Map<String, Integer> otherCategories,
+            final Long playerId,
+            final PointsDto pointsDto) {
+        assertEquals(character, pointsDto.getCharacterEnum());
+        assertEquals(playerId, pointsDto.getPlayer().getId());
+        assertEquals(artifacts, pointsDto.getArtifacts());
+        assertEquals(eggs, pointsDto.getEggs());
+        assertEquals(monkeys, pointsDto.getMonkeys());
+        assertEquals(chalices, pointsDto.getChalices());
+        assertEquals(maps, pointsDto.getMaps());
+        assertEquals(tomes, pointsDto.getTomes());
+        assertEquals(prisoners, pointsDto.getPrisoners());
+        assertEquals(gems, pointsDto.getGems());
+        assertEquals(undefinedCards, pointsDto.getUndefinedCards());
+        assertEquals(money, pointsDto.getMoney());
+        assertEquals(crowns, pointsDto.getCrowns());
+        assertEquals(market, pointsDto.getMarket());
+        assertEquals(mastery, pointsDto.getMastery());
+        assertEquals(trophies, pointsDto.getTrophies());
+        assertEquals(otherCategories, pointsDto.getOtherCategories());
+        assertEquals(artifacts + eggs + monkeys + chalices + maps + tomes + prisoners + gems + undefinedCards + money
+                     + crowns + market + mastery + trophies + (otherCategories != null
+                                                               ? otherCategories.values().stream()
+                                                                       .mapToInt(Integer::valueOf)
+                                                                       .sum() : 0), pointsDto.getTotalPoints());
     }
 
 }

@@ -11,6 +11,7 @@ public class OtherCategoriesConverter extends AbstractConverter<String, Integer>
     }
 
     public Map<String, Integer> convertToEntityAttribute(final String otherCategoriesJson) {
-        return super.convertToEntityAttribute(otherCategoriesJson, new TypeReference<>() {});
+        return super.convertToEntityAttribute(otherCategoriesJson, new TypeReference<>() {
+        });
     }
 }

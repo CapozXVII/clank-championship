@@ -1,6 +1,7 @@
 package it.capozxvii.clankchampionship.abstracts;
 
 import it.capozxvii.clankchampionship.model.jpa.Championship;
+import it.capozxvii.clankchampionship.model.jpa.Game;
 import it.capozxvii.clankchampionship.model.jpa.Player;
 import it.capozxvii.clankchampionship.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.clankchampionship.repository.ChampionshipRepository;
@@ -48,6 +49,8 @@ public abstract class AbstractServiceTest extends AbstractTest {
     protected PrevisionRepository previsionRepository;
 
     protected Championship genericChampionship;
+
+    protected Game genericGame;
     protected Player genericPlayer;
 
 
@@ -57,8 +60,16 @@ public abstract class AbstractServiceTest extends AbstractTest {
                 .ifPresentOrElse(championship -> this.genericChampionship = championship, () -> {
                     this.genericChampionship = championshipRepository.save(
                             createChampionship("La casa di Clank Generic Edition", LocalDateTime.now(),
-                                    LocalDateTime.now().plusYears(1)));
+                                               LocalDateTime.now().plusYears(1)));
                 });
+    }
+
+    @BeforeAll
+    void createGenericGame() {
+        LocalDateTime date = LocalDateTime.of(2024, 1, 1, 1, 1);
+        gameRepository.findById(1L).ifPresentOrElse(game -> this.genericGame = game, () -> {
+            this.genericGame = gameRepository.save(createGame("Clank House", genericChampionship, date));
+        });
     }
 
     @BeforeAll

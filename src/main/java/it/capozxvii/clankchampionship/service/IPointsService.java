@@ -7,4 +7,6 @@ public interface IPointsService {
     void insertPoints(List<PointsDto> pointsDtoList, Long gameId, Long championshipId);
 
     PointsDto updatePoints(PointsDto pointsDto);
+
+    List<PointsDto> getPointsOfAGame(Long gameId);
 }

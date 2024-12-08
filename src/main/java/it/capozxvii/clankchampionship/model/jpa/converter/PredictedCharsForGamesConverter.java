@@ -12,6 +12,7 @@ public class PredictedCharsForGamesConverter extends AbstractConverter<Integer, 
     }
 
     public Map<Integer, CharacterEnum> convertToEntityAttribute(final String otherCategoriesJson) {
-        return super.convertToEntityAttribute(otherCategoriesJson, new TypeReference<>() {});
+        return super.convertToEntityAttribute(otherCategoriesJson, new TypeReference<>() {
+        });
     }
 }

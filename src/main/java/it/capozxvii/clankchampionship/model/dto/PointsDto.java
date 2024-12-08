@@ -37,4 +37,13 @@ public class PointsDto extends AbstractDto implements Serializable {
     private CharacterEnum characterEnum;
     private PlayerDto player;
     private GameDto game;
+    private int totalPoints;
+
+    public int getTotalPoints() {
+        return
+                artifacts + eggs + monkeys + chalices + maps + tomes + prisoners + gems + undefinedCards + money
+                + crowns + market + mastery + trophies + (otherCategories != null
+                                                          ? otherCategories.values().stream().mapToInt(Integer::valueOf)
+                                                                  .sum() : 0);
+    }
 }
